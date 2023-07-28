@@ -17,7 +17,25 @@
 <div class="wrapper wrapper-content" style="height:calc(100% - 92px);">
 	<div id="splitter" class="row" style="height:100%;">
 		<div>
-		
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>
+						<span><lb class="lb-108"></lb></span>
+					</h5>
+					<div class="ibox-tools">
+						<span style="padding: 0px 20px 0px 0px;">
+						</span>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<div>
+						<ul id="addHttp" style="list-style:none; margin:0px; padding:0px;">
+							<li style="line-height: 20px; font-size:15px; width:300px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; display:block;"><div id='result'></div></li>
+						</ul>               
+						<button id="btnse" style="display:none; margin-left:15px;">버튼</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div>
@@ -170,7 +188,34 @@
 			$.main.fn_editorClear();
         });
 
-
+		//-----------------------------------------------------------------------
+		// Description :: API 테스트 보내기
+		//-----------------------------------------------------------------------
+		$('#btnSend').click(function addHttp() {
+			if(addValue.value==false){
+				alert('내용을 입력하세요!');
+			}else{
+				list = document.createElement("li");
+				del = document.querySelector('#btnse').cloneNode(true);
+			    list.innerHTML = addValue.value;
+			    result.appendChild(list);
+			    list.appendChild(del);
+			    del.style.display = "block";
+			    del.innerText = "삭제";
+			    del.style.fontSize = "10px";
+			    del.style.border="none";
+			    del.style.marginLeft = "15px";
+			    //del.style.float="right";
+			    del.style.right = "17px";
+			    del.style.marginBottom = "10px";
+			    del.addEventListener("click", deleteList);
+			}
+		});
+		
+		function deleteList(e){
+			removeOne = e.target.parentElement;
+			removeOne.remove();
+		};
 
 	  	//-----------------------------------------------------------------------
 		// Description :: 시스템 그룹 더블 클릭
