@@ -28,11 +28,11 @@
 					</div>
 				</div>
 				<div class="ibox-content">
-					<div>
-						<ul id="addHttp" style="list-style:none; margin:0px; padding:0px;">
-							<li style="line-height: 20px; font-size:15px; width:300px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; display:block;"><div id='result'></div></li>
-						</ul>               
-						<button id="btnse" style="display:none; margin-left:15px;">버튼</button>
+					<div> 
+						<ul id="addHttp" style="list-style:none; margin:0px; padding:0px; min-width: 0;">
+							<li style="line-height: 20px; font-size:15px; display:block;"><a href="#"><div class="result"></div></a>
+							<button id="btnse" style="display:none; margin-left:15px">삭제</button></li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -198,20 +198,22 @@
 			if(addValue.value==false){
 				alert('내용을 입력하세요!');
 			}else{
-				list = document.createElement("li");
+				list = document.createElement('div');
+				result = document.querySelector('.result')
 				del = document.querySelector('#btnse').cloneNode(true);
-			    list.innerHTML = addValue.value;
-			    result.appendChild(list);
-			    list.appendChild(del);
-			    del.style.display = "block";
-			    del.innerText = "삭제";
-			    del.style.fontSize = "10px";
-			    del.style.border="none";
-			    del.style.marginLeft = "15px";
-			    //del.style.float="right";
-			    del.style.right = "17px";
-			    del.style.marginBottom = "10px";
-			    del.addEventListener("click", deleteList);
+				list.innerHTML = addValue.value;
+				result.appendChild(list);
+				list.prepend(del); 
+				list.style.cssText = 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'
+				del.innerText = '삭제';
+				del.style.display='inline-block';
+				del.style.fontSize = '10px';
+				del.style.border='none';
+				del.style.marginRight = '10px';
+				del.style.right ='17px';
+				del.style.marginBottom = '10px';
+				del.addEventListener('click', deleteList);
+				setCookie();
 			}
 		});
 		
@@ -219,7 +221,34 @@
 			removeOne = e.target.parentElement;
 			removeOne.remove();
 		};
-
+		
+		//쿠키 생성 함수
+		function setCookie(){
+			const nowDate = Date.now();
+			const dt = new Date(nowDate);
+			console.log(dt.toUTCString());
+			
+			
+			cookies = '';
+			cookies = addValue.value;
+			console.log(cookies);
+			
+			document.cookie = cookies;
+			alert('쿠키를 생성하였습니다'); 
+		};
+		
+		//쿠키 가져오는 함수
+		function getCookie(){
+			value = addValue.value + '=';
+			var cookieData = document.cookie;
+			var start = cookieData.indexOf(value);
+			var cValue = '';
+			if(start != -1){
+				start += value.length;
+				var end = cookieData.indexOf(';',start);
+				if(end == -1) end 
+			}
+		}
 	  	//-----------------------------------------------------------------------
 		// Description :: 시스템 그룹 더블 클릭
 		//-----------------------------------------------------------------------
@@ -234,7 +263,7 @@
 				mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "btn-search"});
 			}
 		});
-
+     
 	    //=======================================================================
 	    // (5) 기타 Function 정의
 	    //=======================================================================
