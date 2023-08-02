@@ -223,32 +223,20 @@
 		};
 		
 		//쿠키 생성 함수
-		function setCookie(){
-			const nowDate = Date.now();
-			const dt = new Date(nowDate);
-			console.log(dt.toUTCString());
+		function setCookie(value, days){
+			if(days){
+				var date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				var expires = "; expires=" + date.toGMTString();
+			} else {
+				var expires = "";
+			}
 			
-			
-			cookies = '';
-			cookies = addValue.value;
-			console.log(cookies);
-			
-			document.cookie = cookies;
-			alert('쿠키를 생성하였습니다'); 
+			document.cookie = value + expires + "; path=/";
+			console.log(document.cookie);
+			console.log('만료기간 설정 완료 되었습니다.');
 		};
 		
-		//쿠키 가져오는 함수
-		function getCookie(){
-			value = addValue.value + '=';
-			var cookieData = document.cookie;
-			var start = cookieData.indexOf(value);
-			var cValue = '';
-			if(start != -1){
-				start += value.length;
-				var end = cookieData.indexOf(';',start);
-				if(end == -1) end 
-			}
-		}
 	  	//-----------------------------------------------------------------------
 		// Description :: 시스템 그룹 더블 클릭
 		//-----------------------------------------------------------------------
