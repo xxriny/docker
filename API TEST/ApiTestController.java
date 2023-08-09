@@ -35,6 +35,9 @@ import pep.per.mint.common.data.basic.ComMessage;
 import pep.per.mint.database.service.su.ApiTestService;
 import pep.per.mint.front.exception.ControllerException;
 import pep.per.mint.front.util.MessageSourceUtil;
+
+
+
 @Controller
 @RequestMapping("/su")
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -56,36 +59,46 @@ public class ApiTestController {
 	@RequestMapping(method = RequestMethod.POST, value="/testUri", params="method=GET", headers="content-type=application/json")
 	public @ResponseBody ComMessage<?, ?> uriTest(
 			@RequestBody ComMessage<?, ?> comMessage,  Locale locale) throws Exception, ControllerException  {
-    RestTemplate restTemplate = new RestTemplate();
         
         // Request Headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        // Request Body
-        Map<String,Object> requestBody =new HashMap<>();
-        requestBody.put("member_id", "3");
+        //headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         
-        //JSONObject requestBody = new JSONObject();
+        // Request Body
+        //Map<String,Object> requestBody =new HashMap<>();
+      
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("objectType" , "ComMessage");
+        requestBody.put("requestObject", new JSONObject());
+        requestBody.put("startTime", "20150701120001001");
+        requestBody.put("endTime", "");
+        requestBody.put("errorCd", "0");
+        requestBody.put("errorMsg", "");
+        requestBody.put("userId", "dmc");
+        requestBody.put("checkSession", "false");
+        
+        
         //requestBody.put("member_id","3");
         
-        HttpEntity<Map<String,Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody.toString(), headers);
         
-        String url = "http://localhost:3000/count";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("method","GET");
-
+        String url = "http://localhost:8080/mint/yerin/im/organizations/treemodel?method=GET";
+        //UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("method","GET");
+        System.out.println(url);
+        System.out.println(requestBody.toString());
         // HTTP POST Request
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+        String responseEntity = restTemplate.postForObject(url,requestEntity, String.class);
         
         
         
-        HttpStatus statusCode = responseEntity.getStatusCode();
-        String responseBody = responseEntity.getBody();
+      //  HttpStatus statusCode = responseEntity.getStatusCode();
+        String responseBody = responseEntity;
 
         
         
         
-        System.out.println("Response Status Code: " + statusCode);
+     //   System.out.println("Response Status Code: " + statusCode);
         System.out.println("Response Body: " + responseBody);
 		return null;
 	}
