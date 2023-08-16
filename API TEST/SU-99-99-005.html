@@ -1,275 +1,307 @@
 <div class="row wrapper border-bottom white-bg page-heading menu dhkim">
 	<div id="oldPath" class="col-lg-5">
-	    <h2><lb class="">API TEST</lb></h2>
-	    <ol class="breadcrumb">
-	        <li><lb class=""></lb></li>
-	        <li><lb class="lb-25"></lb></li>
-	        <li class="active"><strong><lb class=""></lb></lb></strong></li>
-	    </ol>
+			<h2><lb class="">API TEST</lb></h2>
+			<ol class="breadcrumb">
+					<li><lb class=""></lb></li>
+					<li><lb class="lb-25"></lb></li>
+					<li class="active"><strong><lb class=""></lb></lb></strong></li>
+			</ol>
 	</div>
 	<div id="menuPath" class="col-lg-5">
-    </div>
-    <div class="col-lg-7">
-        <div class="title-action" ></div>
-    </div>
+	 </div>
+	 <div class="col-lg-7">
+			 <div class="title-action" ></div>
+	 </div>
 </div>
 
 <div class="wrapper wrapper-content" style="height:calc(100% - 92px);">
 	<div id="splitter" class="row" style="height:100%;">
-		<div>
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>
-						<span><lb class="lb-108"></lb></span>
-					</h5>
-					<div class="ibox-tools">
-						<span style="padding: 0px 20px 0px 0px;">
-						</span>
-					</div>
+		 <div>
+				<div class="ibox float-e-margins">
+					 <div class="ibox-title">
+							<h5>
+								 <span><lb class="lb-108"></lb></span>
+							</h5>
+							<div class="ibox-tools">
+								 <span style="padding: 0px 20px 0px 0px;">
+								 </span>
+							</div>
+					 </div>
+					 <div class="ibox-content">
+							<div> 
+								 <ul id="addHttp" style="list-style:none; margin:0px; padding:0px; min-width: 0;">
+										<li style="line-height: 20px; font-size:15px; display:block;"><a href="#"><div class="result" style="display:flex; flex-direction:column;"></div></a>
+										<button id="btnDelete" style="display:none; margin-left:15px; float: right;">삭제</button></li>
+								 </ul>
+							</div>
+					 </div>
 				</div>
-				<div class="ibox-content">
-					<div> 
-						<ul id="addHttp" style="list-style:none; margin:0px; padding:0px; min-width: 0;">
-							<li style="line-height: 20px; font-size:15px; display:block;"><a href="#"><div class="result" style="display : flex;"></div></a>
-							<button id="btnse" style="display:none; margin-left:15px; float: right;">삭제</button></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		 </div>
 
-		<div>
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>
-						<span><lb>API TEST</lb></span>
-					</h5>
-					<div class="ibox-tools">
-					
-					</div>
-				<div class="ibox-content" style="padding : 0;">
-					<hr class="hr-space">
-					<div style="align-items: center; display: flex; flex : 1 1 auto ">
-						<span class="request-post">POST</span>
-	      				<div style="display: flex; flex : 1">
-							 <input id="addValue" class="input-tag-4 k-textbox" type="text" style="width : 100%; padding: 5px 0 5px 10px;">
-	                   	</div>
-	                   		<button id="btnSend" href="#" class="btn btn-w-m btn-primary" style="padding : 6px; margin-left: 10px; width : 15px;"><i class="fa fa-check"></i>보내기</a> 
-	                   </div>	
-					<div>
-						<div class="row">
-							<ul class="body-list">
-								<li><h5 style="float : none; font-size : 15px ; display: inline-block;">Body</h5></li>
-								<li class="body-row"><a href="#body">row</a></li>
-								<li class="body-headers" style="margin-bottom : 10px;"><a href="#headrs">Headers</a></li>
-								<li class="request-type" style="float:right">JSON</li>
-							</ul>
-							<div class="col-sm-12">
-							<form id = "jsonForm">
-			                	<textarea id="request-body" rows="5" cols="30" oninput="$.main.fn_validateJSON()"style="height:200px; width: 100%; border : 1px solid #dcdcdc; resize: none;"></textarea>
-			            	</form>
-			            	</div>
-		           		</div> 
-		           		
-		           		<div class="row">
-							<ul class="body-list">
-								<li><h5 style="margin-right: 15px;"><a href="#body">Body</a></h5></li>
-								<li><h5 style="float : left; font-size : 15px "><a href="#cookies">Cookies</a></h5></li>
-								<li><h5 style="float : left; font-size : 15px "><a href="#headers">Headers</a></h5></li>
-							</ul>
-							<div class="col-sm-12">
-				                <textarea id="ta-description" class="errors"rows="5" cols="30" style="height:300px; width: 100%; border : 1px solid #dcdcdc; resize: none;"></textarea>
-				           
-				            </div> 
-			           </div>  
-					</div>                                                                                                                         
+		 <div>
+				<div class="ibox float-e-margins">
+					 <div class="ibox-title">
+							<h5>
+								 <span><lb>API TEST</lb></span>
+							</h5>
+							<div class="ibox-tools">
+							
+							</div>
+					 <div class="ibox-content" style="padding : 0;">
+							<hr class="hr-space">
+							<div style="align-items: center; display: flex; flex : 1 1 auto ">
+								 <span class="request-post">POST</span>
+										<div style="display: flex; flex : 1">
+										 <input id="addValue" class="input-tag-4 k-textbox" type="text" style="width : 100%; padding: 5px 0 5px 10px;">
+												</div>
+													 <button id="btnSend" href="#" class="btn btn-w-m btn-primary" style="padding : 6px; margin-left: 10px; width : 15px;"><i class="fa fa-check"></i>보내기</a> 
+										 </div>   
+							<div>
+								 <div class="row">
+										<ul class="body-list">
+											 <li><h5 style="float : none; font-size : 15px ; display: inline-block;">Body</h5></li>
+											 <li class="body-row"><a href="#body">row</a></li>
+											 <li class="body-headers" style="margin-bottom : 10px;"><a href="#headrs">Headers</a></li>
+											 <li class="request-type" style="float:right">JSON</li>
+										</ul>
+										<div class="col-sm-12">
+										<form id = "jsonForm">
+													 <textarea id="request-body" rows="5" cols="30" oninput="$.main.fn_validateJSON()"style="height:200px; width: 100%; border : 1px solid #dcdcdc; resize: none;"></textarea>
+											 </form>
+											 </div>
+											</div> 
+											
+											<div class="row">
+										<ul class="body-list">
+											 <li><h5 style="margin-right: 15px;"><a href="#body">Body</a></h5></li>
+											 <li><h5 style="float : left; font-size : 15px "><a href="#cookies">Cookies</a></h5></li>
+											 <li><h5 style="float : left; font-size : 15px "><a href="#headers">Headers</a></h5></li>
+										</ul>
+										<div class="col-sm-12">
+													 <textarea id="ta-description" class="errors"rows="5" cols="30" style="height:300px; width: 100%; border : 1px solid #dcdcdc; resize: none;"></textarea>
+											
+											 </div> 
+									 </div>  
+							</div>                                                                                                                         
+					 </div>
 				</div>
-			</div>
-		</div>
+		 </div>
 	</div>
 </div>
 
 <script>
 	$(document).ready(function() {
-	    //=======================================================================
-	    //(1) function 및 variable scope 설정 :: (메인은 main/main_detail, 팝업 및 서브는 sub)
-	    //=======================================================================
-	    screenName = "SU-99-99-005";
+			//=======================================================================
+			//(1) function 및 variable scope 설정 :: (메인은 main/main_detail, 팝업 및 서브는 sub)
+			//=======================================================================
+			screenName = "SU-99-99-005";
 
-	    $.extend({
-	        main : {
-						btn:document.getElementById('btnSend'),
-						addValue:document.getElementById('addValue'),
-						result:document.getElementById('result'),
-				//수정
-				fn_init : function() {
-					try {
-						mint.init('$.main.fn_initCallback');
-					} catch( e ) {
-						mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "$.main.fn_init"});
-					}
-				},//end fn_init()
-  					   
-				fn_validateJSON : function() {
-			      try {
-				     $('#jsonForm').kendoValidator({
-						 validateOnBlur : false,
-					  rules : {
-						  jsonRule : function(input) {
-							 
-							  if(input.is('#request-body')){
-								  console.log(input.val())
-								  return $.main.fn_valCheck(input.val());
-							  }
-						  }
-					  },
-					  message : {
-						  jsonRule : "NOT JSON "
-					  }
-				  });
-				     $("form").submit(function (event) {
-            			event.preventDefault();
-            			alert("VALID JSON!")
-        				});
-			      } catch (error) {
-			        // 파싱 오류 발생 시 오류 메시지 출력
-					$.main.fn_errorMessage('Json 형식이 아닙니다.')
-			      }
-			    },
-			    fn_errorMessage : function(message) {
-				      const errorDiv = document.getElementById('error');
-				      errorDiv.textContent = message;
-				      errorDiv.class.add()
-				},
-				fn_valCheck : function(json){
-					try{
-						JSON.parse(json);
-						console.log(json)
-						return true
-					}catch{
-						return false
-					}
-				},
-				//-----------------------------------------------------------------------
-				// Description :: 화면 초기화 콜백
-				//-----------------------------------------------------------------------
-				fn_initCallback : function() {
-					try {
+			$.extend({
+					main : {
+								 btn:document.getElementById('btnSend'),
+								 addValue:document.getElementById('addValue'),
+								 result:document.getElementById('result'),
+								 
+					 //-----------------------------------------------------------------------
+					 // Description :: 화면 초기화 콜백
+					 //-----------------------------------------------------------------------
+					 fn_init : function() {
+							try {
+								 mint.init('$.main.fn_initCallback');
+							} catch( e ) {
+								 mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "$.main.fn_init"});
+							}
+					 },//end fn_init()
+					 
+					 //-----------------------------------------------------------------------
+					 // Description :: JSON 변경
+					 //-----------------------------------------------------------------------
+					 fn_validateJSON : function() {
+							try {
+								$('#jsonForm').kendoValidator({
+									validateOnBlur : false,
+								rules : {
+									 jsonRule : function(input) {
+										 
+											if(input.is('#request-body')){
+												 console.log(input.val())
+												 return $.main.fn_valCheck(input.val());
+											}
+									 }
+								},
+								message : {
+									 jsonRule : "NOT JSON "
+								}
+						 });
+								$("form").submit(function (event) {
+										event.preventDefault();
+										alert("VALID JSON!")
+									 });
+							} catch (error) {
+								// 파싱 오류 발생 시 오류 메시지 출력
+							$.main.fn_errorMessage('Json 형식이 아닙니다.')
+							}
+						},
 						
-						$("#splitter").kendoSplitter({
-							panes: [
-								{ size: "25%"}
-							]
-						});
+						 //-----------------------------------------------------------------------
+					 // Description :: 에러 메시지
+					 //-----------------------------------------------------------------------
+						fn_errorMessage : function(message) {
+								 const errorDiv = document.getElementById('error');
+								 errorDiv.textContent = message;
+								 errorDiv.class.add()
+					 },
+					 
+					 //-----------------------------------------------------------------------
+					 // Description :: 값 체크
+					 //-----------------------------------------------------------------------
+					 fn_valCheck : function(json){
+							try{
+								 JSON.parse(json);
+								 console.log(json)
+								 return true
+							}catch{
+								 return false
+							}
+					 },
+					 
+					 //-----------------------------------------------------------------------
+					 // Description :: 파라미터로 값 받기
+					 //-----------------------------------------------------------------------
+					 fn_getUrl : function(test){
+						 console.log(test);
+						 var jsonObj = { url : test };
+						 
+						 mint.callService(jsonObj, screenName, 'API-TEST',function(jsonObject){
 
-						$.main.fn_initTree();
-						mint.common.siteMenuPath(screenName);
-					} catch( e ) {
-						mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "$.main.fn_initCallback"});
+						
+						 });
+					 },
+
+
+					 //-----------------------------------------------------------------------
+					 // Description :: 화면 초기화 콜백
+					 //-----------------------------------------------------------------------
+					 fn_initCallback : function() {
+							try {
+								 
+								 $("#splitter").kendoSplitter({
+										panes: [
+											 { size: "25%"}
+										]
+								 });
+
+								 $.main.fn_initTree();
+								 mint.common.siteMenuPath(screenName);
+							} catch( e ) {
+								 mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "$.main.fn_initCallback"});
+							}
+					 },//end fn_initCallback()
+
+					 //-----------------------------------------------------------------------
+					 // Description :: fn_initTree
+					 //-----------------------------------------------------------------------
+					 fn_initTree : function() {
+							try {
+							} catch( e ) {
+								 mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "$.main.fn_initTree"});
+							}
+					 },//end fn_initTree
 					}
-				},//end fn_initCallback()
+			});
 
-				//-----------------------------------------------------------------------
-				// Description :: fn_initTree
-				//-----------------------------------------------------------------------
-				fn_initTree : function() {
-					try {
-					} catch( e ) {
-						mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "$.main.fn_initTree"});
-					}
-				},//end fn_initTree
-	        }
-	    });
+			//=======================================================================
+			// (4) 이벤트 핸들러 정의
+			//=======================================================================
+		 //-----------------------------------------------------------------------
+		 // Description :: 초기화.
+		 //-----------------------------------------------------------------------
+		 $("#btnClear").click(function () {
+				$.main.fn_editorClear();
+			 });
 
-	    //=======================================================================
-	    // (4) 이벤트 핸들러 정의
-	    //=======================================================================
-		//-----------------------------------------------------------------------
-		// Description :: 초기화.
-		//-----------------------------------------------------------------------
-		$("#btnClear").click(function () {
-			$.main.fn_editorClear();
-        });
+		 //-----------------------------------------------------------------------
+		 // Description :: API 테스트 보내기
+		 //-----------------------------------------------------------------------
+		 $('#btnSend').click(function addHttp() {
+				if(addValue.value==false){
+					 alert('내용을 입력하세요!');
+				}else{
+				 let url = addValue.value;
+				 $.main.fn_getUrl(url);
+					 list = document.createElement('div');
+					 result = document.querySelector('.result')
+					 del = document.querySelector('#btnDelete').cloneNode(true);
+					 list.innerHTML = addValue.value;
+					 result.appendChild(list);
+					 list.prepend(del); 
+					 list.style.cssText = 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'
+					 del.innerText = '삭제';
+					 del.style.display='inline-block';
+					 del.style.fontSize = '10px';
+					 del.style.border='none';
+					 del.style.marginRight = '10px';
+					 del.style.right ='17px';
+					 del.style.marginBottom = '10px';
+					 del.addEventListener('click', deleteList);
+					 setCookie(addValue.value, 30);
+				}
+		 });
+		 
+		 function deleteList(e){
+				removeOne = e.target.parentElement;
+				removeOne.remove();
+		 };
+		 
+		 //쿠키 생성 함수
+		 function setCookie(value, days){
+				if(days){
+					 var date = new Date();
+					 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+					 var expires = "; expires=" + date.toGMTString();
+				} else {
+					 var expires = "";
+				}
+				
+				document.cookie = value + expires + "; path=/";
+				console.log(document.cookie);
+				console.log('만료기간 설정 완료 되었습니다.');
+		 };
+		 
+			 //-----------------------------------------------------------------------
+		 // Description :: 시스템 그룹 더블 클릭
+		 //-----------------------------------------------------------------------
 
-		//-----------------------------------------------------------------------
-		// Description :: API 테스트 보내기
-		//-----------------------------------------------------------------------
-		$('#btnSend').click(function addHttp() {
-			if(addValue.value==false){
-				alert('내용을 입력하세요!');
-			}else{
-				list = document.createElement('div');
-				result = document.querySelector('.result')
-				del = document.querySelector('#btnse').cloneNode(true);
-				list.innerHTML = addValue.value;
-				result.appendChild(list);
-				list.prepend(del); 
-				list.style.cssText = 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'
-				del.innerText = '삭제';
-				del.style.display='inline-block';
-				del.style.fontSize = '10px';
-				del.style.border='none';
-				del.style.marginRight = '10px';
-				del.style.right ='17px';
-				del.style.marginBottom = '10px';
-				del.addEventListener('click', deleteList);
-				setCookie();
-			}
-		});
+			 //-----------------------------------------------------------------------
+		 // Description :: 시스템 조회
+		 //-----------------------------------------------------------------------
+		 $('#btnSend').click( function () {
+				try {
+					 $.main.fn_getUrl();
+					 $.main.fn_validateJSON();
+				} catch( e ) {
+					 mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "btn-search"});
+				}
+		 });
 		
-		function deleteList(e){
-			removeOne = e.target.parentElement;
-			removeOne.remove();
-		};
-		
-		//쿠키 생성 함수
-		function setCookie(value, days){
-			if(days){
-				var date = new Date();
-				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-				var expires = "; expires=" + date.toGMTString();
-			} else {
-				var expires = "";
-			}
-			
-			document.cookie = value + expires + "; path=/";
-			console.log(document.cookie);
-			console.log('만료기간 설정 완료 되었습니다.');
-		};
-		
-	  	//-----------------------------------------------------------------------
-		// Description :: 시스템 그룹 더블 클릭
-		//-----------------------------------------------------------------------
+			//=======================================================================
+			// (5) 기타 Function 정의
+			//=======================================================================
 
-	  	//-----------------------------------------------------------------------
-		// Description :: 시스템 조회
-		//-----------------------------------------------------------------------
-		$('#btnSend').click( function () {
-			try {
-				$.main.fn_validateJSON();
-			} catch( e ) {
-				mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "btn-search"});
-			}
-		});
-     
-	    //=======================================================================
-	    // (5) 기타 Function 정의
-	    //=======================================================================
+			//=======================================================================
+			// (6) 화면 로딩시 실행할 항목 기술
+			//=======================================================================
+			$.main.fn_init();
+			mint.label.attachLabel(null);
 
-	    //=======================================================================
-	    // (6) 화면 로딩시 실행할 항목 기술
-	    //=======================================================================
-	    $.main.fn_init();
-	    mint.label.attachLabel(null);
+		 //-----------------------------------------------------------------------
+		 // Description :: 서버 Search Click 이벤트 (팝업)
+		 //-----------------------------------------------------------------------
+		 
 
-		//-----------------------------------------------------------------------
-		// Description :: 서버 Search Click 이벤트 (팝업)
-		//-----------------------------------------------------------------------
-		
-
-		//-----------------------------------------------------------------------
-		// Description :: 담당자 Search Click 이벤트 (팝업)
-		//-----------------------------------------------------------------------
+		 //-----------------------------------------------------------------------
+		 // Description :: 담당자 Search Click 이벤트 (팝업)
+		 //-----------------------------------------------------------------------
 
 	});
 
@@ -283,4 +315,5 @@
 	a {color :black; }
 	a:hover {color : #18a689; font-weight: bold;}
 	.error {border-bottom: 2px solid red;}
+
 </style>

@@ -2,18 +2,29 @@ package pep.per.mint.common.data.basic;
 
 import java.util.Map;
 
+import org.springframework.http.HttpMethod;
+
 import pep.per.mint.common.data.CacheableObject;
 
-public class ResponseApi extends CacheableObject{
-	private int statusCode;
+public class RequestApi extends CacheableObject {
+	private String url;
+	private HttpMethod method;
 	private Map<String,String> headers;
 	private String body;
 	
-	public int getStatusCode() {
-		return statusCode;
+	public String getUrl() {
+		return url;
 	}
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
+	
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	public HttpMethod getMethod() {
+		return method;
+	}
+	public void setMethod(HttpMethod method) {
+		this.method = method;
 	}
 	public Map<String, String> getHeaders() {
 		return headers;

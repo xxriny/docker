@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -24,14 +25,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pep.per.mint.common.data.basic.ComMessage;
+import pep.per.mint.common.data.basic.RequestApi;
+import pep.per.mint.common.util.Util;
 import pep.per.mint.database.service.su.ApiTestService;
 import pep.per.mint.front.exception.ControllerException;
 import pep.per.mint.front.util.MessageSourceUtil;
@@ -57,9 +62,13 @@ public class ApiTestController {
 	private ServletContext servletContext;
 	
 	@RequestMapping(method = RequestMethod.POST, value="/testUri", params="method=GET", headers="content-type=application/json")
-	public @ResponseBody ComMessage<?, ?> uriTest(
-			@RequestBody ComMessage<?, ?> comMessage,  Locale locale) throws Exception, ControllerException  {
-        
+	public @ResponseBody ComMessage<RequestApi, Object> uriTest(
+			HttpSession httpSession, 
+			@RequestBody ComMessage<RequestApi, Object> comMessage, Locale locale) 
+					throws Exception, ControllerException  {
+		
+		String url = comMessage.getRequestObject().getUrl();
+		System.out.println(url);
         // Request Headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -76,30 +85,34 @@ public class ApiTestController {
         requestBody.put("errorCd", "0");
         requestBody.put("errorMsg", "");
         requestBody.put("userId", "dmc");
+        requestBody.put("appId", "");
         requestBody.put("checkSession", "false");
-        
         
         //requestBody.put("member_id","3");
         
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody.toString(), headers);
         
-        String url = "http://localhost:8080/mint/yerin/im/organizations/treemodel?method=GET";
-        //UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("method","GET");
-        System.out.println(url);
-        System.out.println(requestBody.toString());
-        // HTTP POST Request
-        String responseEntity = restTemplate.postForObject(url,requestEntity, String.class);
-        
-        
-        
-      //  HttpStatus statusCode = responseEntity.getStatusCode();
-        String responseBody = responseEntity;
+        //String url = "http://localhost:8080/mint/im/business/treemodel?method=GET";
+       
+        //System.out.println(url);
 
+
+        // HTTP POST Request
+        String responseEntity = restTemplate.postForObject(url, requestEntity, String.class);
         
+        //HttpStatus statusCode = responseEntity.getStatusCode();
+        String responseBody = responseEntity;
         
+        ObjectMapper objectMapper = new ObjectMapper();
+        responseBody = responseBody.replace("\\", "");
+        Map<String, Object> result = objectMapper.readValue(responseBody, Map.class);
+        comMessage.setResponseObject(result);
+        comMessage.setEndTime(Util.getFormatedDate());
         
-     //   System.out.println("Response Status Code: " + statusCode);
-        System.out.println("Response Body: " + responseBody);
-		return null;
+        //System.out.println("Response Status Code: " + statusCode);
+        System.out.println("Response Body: " + responseBody); 
+        System.out.println("comMessage : " + comMessage);
+        
+		return comMessage;
 	}
 }
