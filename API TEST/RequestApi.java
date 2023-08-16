@@ -7,17 +7,19 @@ import org.springframework.http.HttpMethod;
 import pep.per.mint.common.data.CacheableObject;
 
 public class RequestApi extends CacheableObject {
-	private String Url;
+	private String url;
 	private HttpMethod method;
 	private Map<String,String> headers;
 	private String body;
 	
 	public String getUrl() {
-		return Url;
+		return url;
 	}
+	
 	public void setUrl(String url) {
-		Url = url;
+		this.url = url;
 	}
+	
 	public HttpMethod getMethod() {
 		return method;
 	}
