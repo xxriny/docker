@@ -78,9 +78,8 @@
 											 <li><h5 style="float : left; font-size : 15px "><a href="#headers">Headers</a></h5></li>
 										</ul>
 										<div class="col-sm-12">
-													 <textarea id="ta-description" class="errors"rows="5" cols="30" style="height:300px; width: 100%; border : 1px solid #dcdcdc; resize: none;"></textarea>
-											
-											 </div> 
+											<textarea id="response-body" rows="5" cols="30" style="height:300px; width: 100%; border : 1px solid #dcdcdc; resize: none;"></textarea>
+										</div> 
 									 </div>  
 							</div>                                                                                                                         
 					 </div>
@@ -118,28 +117,17 @@
 					 //-----------------------------------------------------------------------
 					 fn_validateJSON : function() {
 							try {
-								$('#jsonForm').kendoValidator({
-									validateOnBlur : false,
-								rules : {
-									 jsonRule : function(input) {
-										 
-											if(input.is('#request-body')){
-												 console.log(input.val())
-												 return $.main.fn_valCheck(input.val());
-											}
-									 }
-								},
-								message : {
-									 jsonRule : "NOT JSON "
-								}
-						 });
-								$("form").submit(function (event) {
-										event.preventDefault();
-										alert("VALID JSON!")
-									 });
+								var requestBody = $('#request-body').val();
+								var jsonData = JSON.parse(requestBody);
+								var responseData = JSON.parse(data);
+								
+								$('#request-body').empty();
+								$('#response-body').empty();
+								$('#request-body').val(JSON.stringify(jsonData, null, 4));
+								$('#response-body').val(JSON.stringify(data, null, 4));
+								
 							} catch (error) {
 								// 파싱 오류 발생 시 오류 메시지 출력
-							$.main.fn_errorMessage('Json 형식이 아닙니다.')
 							}
 						},
 						
@@ -147,9 +135,7 @@
 					 // Description :: 에러 메시지
 					 //-----------------------------------------------------------------------
 						fn_errorMessage : function(message) {
-								 const errorDiv = document.getElementById('error');
-								 errorDiv.textContent = message;
-								 errorDiv.class.add()
+								
 					 },
 					 
 					 //-----------------------------------------------------------------------
@@ -171,9 +157,9 @@
 					 fn_getUrl : function(test){
 						 console.log(test);
 						 var jsonObj = { url : test };
-						 
-						 mint.callService(jsonObj, screenName, 'API-TEST',function(jsonObject){
-
+						 mint.callService(jsonObj, screenName, 'REST-API-TEST',function(responseData){
+								responseData = JSON.stringify(responseData, null, 4);
+								$('#response-body').val(responseData)
 						
 						 });
 					 },
@@ -228,6 +214,7 @@
 					 alert('내용을 입력하세요!');
 				}else{
 				 let url = addValue.value;
+				 console.log('넣어주는 값' + url)
 				 $.main.fn_getUrl(url);
 					 list = document.createElement('div');
 					 result = document.querySelector('.result')
@@ -277,8 +264,6 @@
 		 //-----------------------------------------------------------------------
 		 $('#btnSend').click( function () {
 				try {
-					 $.main.fn_getUrl();
-					 $.main.fn_validateJSON();
 				} catch( e ) {
 					 mint.common.errorLog(e, {"screenName" : screenName, "fnName" : "btn-search"});
 				}
