@@ -10,10 +10,11 @@
 			<li>
 				<lb class="lb-25"></lb>
 			</li>
-			<li class="active"><strong>
+			<li class="active">
+				<strong>
 					<lb class=""></lb>
-					</lb>
-				</strong></li>
+				</strong>
+			</li>
 		</ol>
 	</div>
 	<div id="menuPath" class="col-lg-5">
@@ -41,7 +42,8 @@
 				<div class="ibox-content">
 					<div>
 						<ul id="addHttp" style="list-style:none; margin:0px; padding:0px; min-width: 0;">
-							<li style="line-height: 20px; font-size:15px; display:block;"><a href="#">
+							<li style="line-height: 20px; font-size:15px; display:block;">
+								<a href="#">
 									<div class="result" style="display:flex; flex-direction:column;"></div>
 								</a>
 								<button id="btnDelete" style="display:none; margin-left:15px; float: right;">삭제</button>
@@ -65,9 +67,9 @@
 					</div>
 					<div class="ibox-content" style="padding : 0;">
 						<hr class="hr-space">
-						<div style="align-items: center; display: flex; flex : 1 1 auto ">
+						<div style="align-items: center; display: flex;">
 							<span class="request-post">POST</span>
-							<div style="display: flex; flex : 1">
+							<div style="flex : 1">
 								<input id="addValue" class="input-tag-4 k-textbox" type="text"
 									style="width : 100%; padding: 5px 0 5px 10px;">
 							</div>
@@ -76,29 +78,28 @@
 									class="fa fa-check"></i>보내기</a>
 						</div>
 						<div>
-							<div class="row">
+							<div class="row request-row">
 								<ul class="body-list">
 									<li>
 										<h5 style="float : none; font-size : 15px ; display: inline-block;">Body</h5>
 									</li>
 									<li class="body-row"><a href="#body">Raw</a></li>
-									<li class="body-headers" style="margin-bottom : 10px;"><a href="#headrs">Headers</a>
-									</li>
+									<!--	<li class="body-headers" style="margin-bottom : 10px;"><a href="#headrs">Headers</a></li> -->
 									<li class="request-type" style="float:right">
 										<div id="error">JSON</div>
 									</li>
 								</ul>
 								<div class="col-sm-12">
-									<div class="line-numbers">
-										<span></span>
+									<div class="textArea-wrap">
+										<div class="line-numbers">
+											<span></span>
+										</div>
+										<textarea id="request-body" class="text-box" rows="5" cols="30" onkeyup="$.main.fn_valCheck()"></textarea>
 									</div>
-									<textarea id="request-body" class="text-box" rows="5" cols="30"
-										onkeyup="$.main.fn_valCheck()"></textarea>
-
 								</div>
 							</div>
 
-							<div class="row">
+							<div class="row response-row">
 								<ul class="body-list">
 									<li>
 										<h5 style="margin-right: 15px;"><a href="#body">Body</a></h5>
@@ -107,15 +108,17 @@
 										<h5 style="float : left; font-size : 15px "><a href="#cookies">Cookies</a></h5>
 									</li>
 									<li>
-										<h5 style="float : left; font-size : 15px "><a href="#headers">Headers</a></h5>
+										<h5 class="response-header" style="float : left; font-size : 15px "><a
+												href="#headers">Headers</a></h5>
 									</li>
 								</ul>
 								<div class="col-sm-12">
-									<div class="line-numbers">
-										<span></span>
+										<div class="textArea-wrap">
+										<div class="line-numbers">
+											<span></span>
+										</div>
+										<textarea id="response-body" class="text-box" rows="5" cols="30" onkeyup="$.main.fn_valCheck()"></textarea>
 									</div>
-									<textarea id="response-body" readonly="readonly" class="text-box" rows="5"
-										cols="30"></textarea>
 								</div>
 							</div>
 						</div>
@@ -125,174 +128,197 @@
 		</div>
 	</div>
 
-<script>
-$(document).ready(function () {
-	//=======================================================================
-	//(1) function 및 variable scope 설정 :: (메인은 main/main_detail, 팝업 및 서브는 sub)
-	//=======================================================================
-	screenName = "API-Test";
+	<script>
+		$(document).ready(function () {
+			//=======================================================================
+			//(1) function 및 variable scope 설정 :: (메인은 main/main_detail, 팝업 및 서브는 sub)
+			//=======================================================================
+			screenName = "API-Test";
 
-	$.extend({
-		main: {
-			btn: document.getElementById('btnSend'),
-			addValue: document.getElementById('addValue'),
-			result: document.getElementById('result'),
+			$.extend({
+				main: {
+					btn: document.getElementById('btnSend'),
+					addValue: document.getElementById('addValue'),
+					result: document.getElementById('result'),
 
-			//-----------------------------------------------------------------------
-			// Description :: 화면 초기화 콜백
-			//-----------------------------------------------------------------------
-			fn_init: function () {
-				try {
-					mint.init('$.main.fn_initCallback');
-
-				} catch (e) {
-					mint.common.errorLog(e, {"screenName": screenName, "fnName": "$.main.fn_init"});
-				}
-			},//end fn_init()
-
-			//-----------------------------------------------------------------------
-			// Description :: JSON 체크
-			//-----------------------------------------------------------------------
-			fn_validateJSON: function () {
-				try {
-					var requestData = $('#request-body').val();
-					$('#request-body').on('propertychange change keyup paste input', function () {
+					//-----------------------------------------------------------------------
+					// Description :: 화면 초기화 콜백
+					//-----------------------------------------------------------------------
+					fn_init: function () {
 						try {
-							jsonObject = JSON.parse(requestData);
-							$('#error').text('JSON');
+							mint.init('$.main.fn_initCallback');
+
 						} catch (e) {
-							$('#error').text('NOT JSON')
+							mint.common.errorLog(e, {"screenName": screenName, "fnName": "$.main.fn_init"});
 						}
-					})
-				} catch (e) {
+					},//end fn_init()
 
+					//-----------------------------------------------------------------------
+					// Description :: JSON 체크
+					//-----------------------------------------------------------------------
+					fn_validateJSON: function () {
+						try {
+							var requestData = $('#request-body').val();
+							$('#request-body').on('propertychange change keyup paste input', function () {
+								try {
+									jsonObject = JSON.parse(requestData);
+									$('#error').text('JSON');
+								} catch (e) {
+									$('#error').text('NOT JSON')
+								}
+							})
+						} catch (e) {
+
+						}
+					},
+
+					//-----------------------------------------------------------------------
+					// Description :: JSON 형식 정렬
+					//-----------------------------------------------------------------------
+					fn_valCheck: function () {
+						try {
+							$.main.fn_validateJSON();
+							var requestBody = $('#request-body').val();
+							var jsonData = JSON.parse(requestBody);
+							$('#request-body').val(JSON.stringify(jsonData, null, 4));
+						} catch (error) {
+
+						}
+					},
+
+					//-----------------------------------------------------------------------
+					// Description :: 서비스 호출
+					//-----------------------------------------------------------------------
+					
+					fn_getUrl: function (url) {
+						try {
+							
+							var requestBody = $('#request-body').val();
+							requestBody = JSON.parse(requestBody);
+							var requestObject = new Object();
+							requestObject.url = url;
+							requestObject.requestData = requestBody;
+
+							mint.callService(requestObject, screenName, 'REST-API-TEST', '$.main.fn_setData', {errorCall: true});
+
+						} catch (e) {
+
+						}
+
+					},
+					
+					//-----------------------------------------------------------------------
+					// Description :: RESPONSE DATA 세팅
+					//-----------------------------------------------------------------------
+					
+					fn_setData: function (jsonObject) {
+						try {
+							console.log(jsonObject)
+							var responseData = JSON.stringify(jsonObject, null, 4).replace(/\\/g, '');
+							/*var dataSource = new kendo.data.DataSource({
+								data : responseData,
+								page : 1
+							});*/
+							$('#response-body').val(responseData);
+						} catch (e) {
+							alert(e);
+						}
+					},
+					
+					//-----------------------------------------------------------------------
+					// Description :: 화면 초기화 콜백
+					//-----------------------------------------------------------------------
+					
+					fn_initCallback: function () {
+						try {
+
+							$("#splitter").kendoSplitter({
+								panes: [
+									{size: "25%"}
+								]
+							});
+
+							$.main.fn_initTree();
+							mint.common.siteMenuPath(screenName);
+						} catch (e) {
+							mint.common.errorLog(e, {"screenName": screenName, "fnName": "$.main.fn_initCallback"});
+						}
+					},//end fn_initCallback()
+
+					//-----------------------------------------------------------------------
+					// Description :: fn_initTree
+					//-----------------------------------------------------------------------
+					
+					fn_initTree: function () {
+						try {
+						} catch (e) {
+							mint.common.errorLog(e, {"screenName": screenName, "fnName": "$.main.fn_initTree"});
+						}
+					},//end fn_initTree
 				}
-			},
-
-			//-----------------------------------------------------------------------
-			// Description :: JSON 형식 정렬
-			//-----------------------------------------------------------------------
-			fn_valCheck: function () {
-				try {
-					$.main.fn_validateJSON();
-					var requestBody = $('#request-body').val();
-					var jsonData = JSON.parse(requestBody);
-					$('#request-body').val(JSON.stringify(jsonData, null, 4));
-				} catch (error) {
-
-				}
-			},
-
-			//-----------------------------------------------------------------------
-			// Description :: 파라미터로 값 받기
-			//-----------------------------------------------------------------------
-			fn_getUrl: function (test) {
-				try {
-					let url = addValue.value;
-					console.log(test);
-					var requestBody = $('#request-body').val();
-					requestBody = JSON.parse(requestBody);
-					var requestObject = new Object();
-					requestObject.url = test;
-					requestObject.requestData = requestBody;
-					console.log(JSON.stringify(requestObject));
-					mint.callService(requestObject, screenName, 'API-TEST', function (responseData) {
-						responseData = JSON.stringify(responseData, null, 4);
-						$('#response-body').val(responseData);
-					});
-					//fn_setCookie(url, responseData, 30);
-				} catch (e) {
-					alert(e);
-				}
-
-			},
-
-
-			//-----------------------------------------------------------------------
-			// Description :: 화면 초기화 콜백
-			//-----------------------------------------------------------------------
-			fn_initCallback: function () {
-				try {
-
-					$("#splitter").kendoSplitter({
-						panes: [
-							{size: "25%"}
-						]
-					});
-
-					$.main.fn_initTree();
-					mint.common.siteMenuPath(screenName);
-				} catch (e) {
-					mint.common.errorLog(e, {"screenName": screenName, "fnName": "$.main.fn_initCallback"});
-				}
-			},//end fn_initCallback()
-
-			//-----------------------------------------------------------------------
-			// Description :: fn_initTree
-			//-----------------------------------------------------------------------
-			fn_initTree: function () {
-				try {
-				} catch (e) {
-					mint.common.errorLog(e, {"screenName": screenName, "fnName": "$.main.fn_initTree"});
-				}
-			},//end fn_initTree
-		}
-	});
+			});
 
 			//=======================================================================
 			// (4) 이벤트 핸들러 정의
 			//=======================================================================
-		 //-----------------------------------------------------------------------
-		 // Description :: 초기화.
-		 //-----------------------------------------------------------------------
-		 $("#btnClear").click(function () {
+			
+			
+			//-----------------------------------------------------------------------
+			// Description :: 초기화.
+			//-----------------------------------------------------------------------
+			$("#btnClear").click(function () {
 				$.main.fn_editorClear();
-			 });
+			});
 
-		 //-----------------------------------------------------------------------
-		 // Description :: 저장된 쿠키 목록에 보여지도록
-		 //-----------------------------------------------------------------------
-		 function fn_displayStoredCookies() {
-			    const cookies = document.cookie.split(';');
-			    const result = document.querySelector('.result');
 
-			    for (const cookie of cookies) {
-			        const [cookieName, cookieValue] = cookie.trim().split('=');
-			        const list = document.createElement('div');
-			        const del = document.querySelector('#btnDelete').cloneNode(true);
+			//-----------------------------------------------------------------------
+			// Description :: 저장된 쿠키 목록에 보여지도록
+			//-----------------------------------------------------------------------
 
-			        if(!cookieName.startsWith('h')){
-			        	//console.log(cookieName.startsWith('h'));
-			        	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;' ;
-			        }
-			        else{
-			        	//console.log(cookieName.startsWith('h'));
-			        	list.innerHTML = cookie;
-				        result.appendChild(list);
-				        list.prepend(del);
-				        list.style.cssText = 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;';
+			function fn_displayStoredCookies() {
+				const cookies = document.cookie.split(';');
+				const result = document.querySelector('.result');
+
+				for (const cookie of cookies) {
+					const [cookieName, cookieValue] = cookie.trim().split('=');
+					const list = document.createElement('div');
+					const del = document.querySelector('#btnDelete').cloneNode(true);
+
+					if (!cookieName.startsWith('h')) {
+						//console.log(cookieName.startsWith('h'));
+						document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+					}
+					else {
+						//console.log(cookieName.startsWith('h'));
+						list.innerHTML = cookie;
+						result.appendChild(list);
+						list.prepend(del);
+						list.style.cssText = 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;';
 						del.innerText = '삭제';
-						del.style.display='inline-block';
+						del.style.display = 'inline-block';
 						del.style.fontSize = '10px';
-						del.style.border='none';
+						del.style.border = 'none';
 						del.style.marginRight = '10px';
-						del.style.right ='17px';
+						del.style.right = '17px';
 						del.style.marginBottom = '10px';
 						del.addEventListener('click', fn_deleteList);
-			        }
-			    }
+					}
+				}
 			};
+
+			//-----------------------------------------------------------------------
+			// Description :: API 테스트 보내기
+			//-----------------------------------------------------------------------
 			
-		 //-----------------------------------------------------------------------
-		 // Description :: API 테스트 보내기
-		 //-----------------------------------------------------------------------
-		 $('#btnSend').click(function addHttp() {
+			$('#btnSend').click(function addHttp() {
 				if (addValue.value == false) {
 					alert('내용을 입력하세요!');
 				} else {
 					let url = addValue.value;
 					console.log('넣어주는 값' + url)
+					
 					$.main.fn_getUrl(url);
+					
 					list = document.createElement('div');
 					result = document.querySelector('.result')
 					del = document.querySelector('#btnDelete').cloneNode(true);
@@ -300,6 +326,7 @@ $(document).ready(function () {
 					result.appendChild(list);
 					list.prepend(del);
 					list.style.cssText = 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'
+					
 					del.innerText = '삭제';
 					del.style.display = 'inline-block';
 					del.style.fontSize = '10px';
@@ -310,135 +337,136 @@ $(document).ready(function () {
 					del.addEventListener('click', fn_deleteList);
 				}
 			});
-		 
-		 //-----------------------------------------------------------------------
-		 // Description :: 목록 리스트 지우기
-		 //-----------------------------------------------------------------------
-		 function fn_deleteList(e) {
+
+			//-----------------------------------------------------------------------
+			// Description :: 목록 리스트 지우기
+			//-----------------------------------------------------------------------
+			
+			function fn_deleteList(e) {
 				const removeOne = e.target.parentElement;
 				const cookieName = removeOne.innerText;
-				
-				fn_deleteCookie(cookieName);
-				
-				removeOne.remove();
-		 };
-		 
-		//-----------------------------------------------------------------------
-		 // Description :: 삭제 버튼 누른 리스트의 쿠키 지우기
-		 //-----------------------------------------------------------------------
-		 function fn_deleteCookie(name) {
-			 const cookie = name.split("\n");
-			 console.log(cookie[1]);
-			 const cookies = document.cookie.split('; ');
 
-			 for(var i = 0; i < cookies.length; i++){
-				 if(cookies[i] == cookie[1]){
-					 document.cookie = cookies[i] + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=localhost;path=/;';
-					 console.log('쿠키 삭제를 완료 했습니다.');
-				 }
-			 }
-		 };
-		 
-		//-----------------------------------------------------------------------
-		 // Description :: 쿠키 생성 함수
-		 //-----------------------------------------------------------------------
-		 function fn_setCookie(url, value, days){
-				if(days){
-					 var date = new Date();
-					 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					 var expires = "; expires=" + date.toGMTString();
-				} else {
-					 var expires = "";
+				fn_deleteCookie(cookieName);
+
+				removeOne.remove();
+			};
+
+			//-----------------------------------------------------------------------
+			// Description :: 삭제 버튼 누른 리스트의 쿠키 지우기
+			//-----------------------------------------------------------------------
+			
+			function fn_deleteCookie(name) {
+				const cookie = name.split("\n");
+				console.log(cookie[1]);
+				const cookies = document.cookie.split('; ');
+
+				for (var i = 0; i < cookies.length; i++) {
+					if (cookies[i] == cookie[1]) {
+						document.cookie = cookies[i] + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=localhost;path=/;';
+						console.log('쿠키 삭제를 완료 했습니다.');
+					}
 				}
-				
+			};
+
+			//-----------------------------------------------------------------------
+			// Description :: 쿠키 생성 함수
+			//-----------------------------------------------------------------------
+			function fn_setCookie(url, value, days) {
+				if (days) {
+					var date = new Date();
+					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+					var expires = "; expires=" + date.toGMTString();
+				} else {
+					var expires = "";
+				}
+
 				document.cookie = url + expires + "; path=/";
 				console.log(document.cookie);
 				console.log('만료기간 설정 완료 되었습니다.');
-		 };
-		 
-		 //-----------------------------------------------------------------------
-		 // Description :: 시스템 조회
-		 //-----------------------------------------------------------------------
-		 $('#btnSend').click(function () {
+			};
+
+			//-----------------------------------------------------------------------
+			// Description :: response 조회
+			//-----------------------------------------------------------------------
+			$('#btnSend').click(function () {
 				try {
 				} catch (e) {
 					mint.common.errorLog(e, {"screenName": screenName, "fnName": "btn-search"});
 				}
 			});
-		
-		 //=======================================================================
-		 // (5) 기타 Function 정의
-		 //=======================================================================
-		 	const requestTextArea = $('.request-textarea');
-			const responseTextArea = $('.response-textarea');
-			const lineNumbers = $('.line-numbers');
+
+			//-----------------------------------------------------------------------
+			// Description :: response header 조회
+			//-----------------------------------------------------------------------
+
+
+			//=======================================================================
+			// (5) 기타 Function 정의
+			//=======================================================================
+			
+			
+			const requestTextArea = $('#request-body');
+			const responseTextArea = $('#response-body');
+			let lineNumbers = $('.line-numbers');
 
 			// Description :: 동시 스크롤
 			requestTextArea.on('scroll', e => {
 				lineNumbers.scrollTop(requestTextArea.scrollTop())
 			});
-			
+
 			responseTextArea.on('scroll', e => {
 				lineNumbers.scrollTop(responseTextArea.scrollTop())
 			});
 
-			lineNumbers.on('scroll', e => {
-				textArea.scrollTop(lineNumbers.scrollTop())
-			});
-			
+
 			// Description :: line numbers
+			
 			requestTextArea.on('keyup', e => {
+				lineNumbers = $('.request-row .line-numbers')
 				const numberOfLines = e.target.value.split('\n').length;
 				lineNumbers.html(Array(numberOfLines).fill('<span></span>').join(''))
 			});
-			
-			responseTextArea.on('keyup', e => {
+
+			responseTextArea.on('', (e) => {
+				console.log('/ssss')
+				lineNumbers = $('.response-row .line-numbers')
 				const numberOfLines = e.target.value.split('\n').length;
 				lineNumbers.html(Array(numberOfLines).fill('<span></span>').join(''))
 			});
-			
-			requestTextArea.on('keydown', e => {
-				
+
+	/*	requestTextArea.on('keydown', e => {
+
 				if (e.keyCode === 9) {
 					var start = this.selectionStart
 					var end = this.selectionEnd;
 
 					this.value = requestTextArea.value.subString(0, start) + '\t' + requestTextArea.value.subString(end);
-					this.selectionStart = this.selectionEnd = start+1;
+					this.selectionStart = this.selectionEnd = start + 1;
 				}
 			});
-			
+
 			responseTextArea.on('keydown', e => {
-				
+
 				if (e.keyCode === 9) {
 					var start = this.selectionStart
 					var end = this.selectionEnd;
 
 					this.value = responseTextArea.value.subString(0, start) + '\t' + responseTextArea.value.subString(end);
-					this.selectionStart = this.selectionEnd = start+1;
+					this.selectionStart = this.selectionEnd = start + 1;
 				}
-			});
-		 //=======================================================================
-		 // (6) 화면 로딩시 실행할 항목 기술
-		 //=======================================================================
-		 $.main.fn_init();
-		 mint.label.attachLabel(null);
-		 fn_displayStoredCookies();
-		 
-		 //-----------------------------------------------------------------------
-		 // Description :: 서버 Search Click 이벤트 (팝업)
-		 //-----------------------------------------------------------------------
-		 
+			});*/
+			//=======================================================================
+			// (6) 화면 로딩시 실행할 항목 기술
+			//=======================================================================
+			$.main.fn_init();
+			mint.label.attachLabel(null);
+			fn_displayStoredCookies();
 
-		 //-----------------------------------------------------------------------
-		 // Description :: 담당자 Search Click 이벤트 (팝업)
-		 //-----------------------------------------------------------------------
+		});
 
-	});
+	</script>
 
-</script>
-
-<style>
+	<style>
 		.body-list {
 			list-style: none;
 			padding: 0 15px 0 15px;
@@ -471,21 +499,19 @@ $(document).ready(function () {
 		}
 
 		textarea {
-			height: 200px;
 			width: 100%;
-			border: 1px solid #dcdcdc;
-			resize: none;
 			line-height: 21px;
 			padding: 0px;
 			outline: none;
+			border: none;
+			resize:none;
 		}
- 
+
 		.line-numbers {
 			width: 40px;
 			text-align: center;
-			border: 1px solid #dcdcdc;
-			border-right: 0px;
-			height: 200px;
+			border-right: 1px solid #dcdcdc;
+			height: 100%;
 			overflow: hidden;
 		}
 
@@ -498,4 +524,13 @@ $(document).ready(function () {
 			display: block;
 			color: #18a689;
 		}
-</style>
+		
+		.textArea-wrap{
+			overflow : hidden;
+			display : inline-flex; 
+			width : 100%;
+			border : 1px solid #dcdcdc;
+			height: 200px;
+			resize: vertical;
+		}
+	</style>
