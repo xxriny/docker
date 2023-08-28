@@ -70,12 +70,10 @@
 						<div style="align-items: center; display: flex;">
 							<span class="request-post">POST</span>
 							<div style="flex : 1">
-								<input id="addValue" class="input-tag-4 k-textbox" type="text"
-									style="width : 100%; padding: 5px 0 5px 10px;">
+								<input id="addValue" class="input-tag-4 k-textbox" type="text" style="width : 100%; padding: 5px 0 5px 10px;">
 							</div>
-							<button id="btnSend" href="#" class="btn btn-w-m btn-primary"
-								style="padding : 6px; margin-left: 10px; width : 15px;"><i
-									class="fa fa-check"></i>보내기</a>
+							<button id="btnSend" href="#" class="btn btn-w-m btn-primary" style="padding : 6px; margin-left: 10px; width : 15px;">
+							<i class="fa fa-check"></i>보내기</a>
 						</div>
 						<div>
 							<div class="row request-row">
@@ -91,7 +89,7 @@
 								</ul>
 								<div class="col-sm-12">
 									<div class="textArea-wrap">
-										<div class="line-numbers">
+										<div class="line-numbers request-line-numbers">
 											<span></span>
 										</div>
 										<textarea id="request-body" class="text-box" rows="5" cols="30" onkeyup="$.main.fn_valCheck()"></textarea>
@@ -114,10 +112,10 @@
 								</ul>
 								<div class="col-sm-12">
 										<div class="textArea-wrap">
-										<div class="line-numbers">
+										<div class="line-numbers response-line-numbers">
 											<span></span>
 										</div>
-										<textarea id="response-body" class="text-box" rows="5" cols="30" onkeyup="$.main.fn_valCheck()"></textarea>
+										<textarea readonly id="response-body" class="text-box" rows="5" cols="30" onkeyup="$.main.fn_valCheck()"></textarea>
 									</div>
 								</div>
 							</div>
@@ -199,8 +197,7 @@
 							requestObject.url = url;
 							requestObject.requestData = requestBody;
 
-							mint.callService(requestObject, screenName, 'REST-API-TEST', '$.main.fn_setData', {errorCall: true});
-
+							mint.callService(requestObject, screenName, 'API-TEST', '$.main.fn_setData', {errorCall: true});
 						} catch (e) {
 
 						}
@@ -275,22 +272,20 @@
 			// Description :: 저장된 쿠키 목록에 보여지도록
 			//-----------------------------------------------------------------------
 
-			function fn_displayStoredCookies() {
-				const cookies = document.cookie.split(';');
-				const result = document.querySelector('.result');
-
-				for (const cookie of cookies) {
-					const [cookieName, cookieValue] = cookie.trim().split('=');
+			function fn_displayStoredLocalStorage() {
+				let keys = Object.keys(localStorage);
+				result = document.querySelector('.result');
+				
+				for (let key of keys) {
+					console.log('${key}');
 					const list = document.createElement('div');
 					const del = document.querySelector('#btnDelete').cloneNode(true);
 
-					if (!cookieName.startsWith('h')) {
-						//console.log(cookieName.startsWith('h'));
-						document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+					if (!key.startsWith('h')) {
+						window.localStorage.removeItem(key);
 					}
 					else {
-						//console.log(cookieName.startsWith('h'));
-						list.innerHTML = cookie;
+						list.innerHTML = key;
 						result.appendChild(list);
 						list.prepend(del);
 						list.style.cssText = 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;';
@@ -310,17 +305,15 @@
 			// Description :: API 테스트 보내기
 			//-----------------------------------------------------------------------
 			
-			$('#btnSend').click(function addHttp() {
+			function fn_addHttp() {
 				if (addValue.value == false) {
 					alert('내용을 입력하세요!');
 				} else {
 					let url = addValue.value;
-					console.log('넣어주는 값' + url)
-					
 					$.main.fn_getUrl(url);
 					
 					list = document.createElement('div');
-					result = document.querySelector('.result')
+					result = document.querySelector('.result');
 					del = document.querySelector('#btnDelete').cloneNode(true);
 					list.innerHTML = addValue.value;
 					result.appendChild(list);
@@ -335,54 +328,32 @@
 					del.style.right = '17px';
 					del.style.marginBottom = '10px';
 					del.addEventListener('click', fn_deleteList);
-				}
-			});
 
+					fn_setLocalStorage(url, JSON.stringify(jsonObject));
+				}
+			};
+			
+			
 			//-----------------------------------------------------------------------
-			// Description :: 목록 리스트 지우기
+			// Description :: 로컬 스토리지 생성 함수
+			//-----------------------------------------------------------------------
+			function fn_setLocalStorage(url, value) {
+				window.localStorage.setItem(url, value);
+				console.log('로컬 스토리지에 저장 완료했습니다.');
+			};
+			
+			//-----------------------------------------------------------------------
+			// Description :: 목록 리스트 / 로컬 스토리지 지우기
 			//-----------------------------------------------------------------------
 			
 			function fn_deleteList(e) {
 				const removeOne = e.target.parentElement;
-				const cookieName = removeOne.innerText;
-
-				fn_deleteCookie(cookieName);
+				const url = addValue.value;
+				
+				window.localStorage.removeItem(url);
+				console.log('로컬 스토리지에서 삭제 완료했습니다.');
 
 				removeOne.remove();
-			};
-
-			//-----------------------------------------------------------------------
-			// Description :: 삭제 버튼 누른 리스트의 쿠키 지우기
-			//-----------------------------------------------------------------------
-			
-			function fn_deleteCookie(name) {
-				const cookie = name.split("\n");
-				console.log(cookie[1]);
-				const cookies = document.cookie.split('; ');
-
-				for (var i = 0; i < cookies.length; i++) {
-					if (cookies[i] == cookie[1]) {
-						document.cookie = cookies[i] + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=localhost;path=/;';
-						console.log('쿠키 삭제를 완료 했습니다.');
-					}
-				}
-			};
-
-			//-----------------------------------------------------------------------
-			// Description :: 쿠키 생성 함수
-			//-----------------------------------------------------------------------
-			function fn_setCookie(url, value, days) {
-				if (days) {
-					var date = new Date();
-					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					var expires = "; expires=" + date.toGMTString();
-				} else {
-					var expires = "";
-				}
-
-				document.cookie = url + expires + "; path=/";
-				console.log(document.cookie);
-				console.log('만료기간 설정 완료 되었습니다.');
 			};
 
 			//-----------------------------------------------------------------------
@@ -390,11 +361,18 @@
 			//-----------------------------------------------------------------------
 			$('#btnSend').click(function () {
 				try {
+					fn_addHttp();
 				} catch (e) {
 					mint.common.errorLog(e, {"screenName": screenName, "fnName": "btn-search"});
 				}
 			});
-
+			
+			$('#addValue').keydown( function(event) {
+				if(event.keyCode == 13){
+					fn_addHttp();
+				}
+			});
+			
 			//-----------------------------------------------------------------------
 			// Description :: response header 조회
 			//-----------------------------------------------------------------------
@@ -404,37 +382,44 @@
 			// (5) 기타 Function 정의
 			//=======================================================================
 			
-			
 			const requestTextArea = $('#request-body');
 			const responseTextArea = $('#response-body');
-			let lineNumbers = $('.line-numbers');
+			const reqLineNumbers = $('.request-line-numbers');
+			const resLineNumbers = $('.response-line-numbers');
 
 			// Description :: 동시 스크롤
 			requestTextArea.on('scroll', e => {
-				lineNumbers.scrollTop(requestTextArea.scrollTop())
+				reqLineNumbers.scrollTop(requestTextArea.scrollTop());
 			});
-
+			
 			responseTextArea.on('scroll', e => {
-				lineNumbers.scrollTop(responseTextArea.scrollTop())
+				resLineNumbers.scrollTop(responseTextArea.scrollTop());
 			});
-
+			
+			reqLineNumbers.on('scroll', e => {
+				requestTextArea.scrollTop(reqLineNumbers.scrollTop());
+			});
+			
+			resLineNumbers.on('scroll', e => {
+				responseTextArea.scrollTop(resLineNumbers.scrollTop());
+			});
 
 			// Description :: line numbers
 			
 			requestTextArea.on('keyup', e => {
-				lineNumbers = $('.request-row .line-numbers')
+				lineNumbers = $('.request-row .line-numbers');
 				const numberOfLines = e.target.value.split('\n').length;
-				lineNumbers.html(Array(numberOfLines).fill('<span></span>').join(''))
+				lineNumbers.html(Array(numberOfLines).fill('<span></span>').join(''));
 			});
 
-			responseTextArea.on('', (e) => {
-				console.log('/ssss')
-				lineNumbers = $('.response-row .line-numbers')
+			responseTextArea.on('mouseover', (e) => {
+				lineNumbers = $('.response-row .line-numbers');
 				const numberOfLines = e.target.value.split('\n').length;
-				lineNumbers.html(Array(numberOfLines).fill('<span></span>').join(''))
+				lineNumbers.html(Array(numberOfLines).fill('<span></span>').join(''));
 			});
 
-	/*	requestTextArea.on('keydown', e => {
+			
+			/*requestTextArea.on('keydown', e => {
 
 				if (e.keyCode === 9) {
 					var start = this.selectionStart
@@ -455,12 +440,13 @@
 					this.selectionStart = this.selectionEnd = start + 1;
 				}
 			});*/
+			
 			//=======================================================================
 			// (6) 화면 로딩시 실행할 항목 기술
 			//=======================================================================
 			$.main.fn_init();
 			mint.label.attachLabel(null);
-			fn_displayStoredCookies();
+			fn_displayStoredLocalStorage();
 
 		});
 
