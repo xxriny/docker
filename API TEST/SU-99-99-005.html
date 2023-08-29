@@ -275,13 +275,13 @@
 			function fn_displayStoredLocalStorage() {
 				let keys = Object.keys(localStorage);
 				result = document.querySelector('.result');
+				console.log(keys);
 				
 				for (let key of keys) {
-					console.log('${key}');
 					const list = document.createElement('div');
 					const del = document.querySelector('#btnDelete').cloneNode(true);
 
-					if (!key.startsWith('h')) {
+					if (!key.startsWith("http")) {
 						window.localStorage.removeItem(key);
 					}
 					else {
@@ -297,6 +297,9 @@
 						del.style.right = '17px';
 						del.style.marginBottom = '10px';
 						del.addEventListener('click', fn_deleteList);
+						del.addEventListener('click', function(event) {
+							fn_deleteLocalStorage(key);
+						});
 					}
 				}
 			};
@@ -328,6 +331,9 @@
 					del.style.right = '17px';
 					del.style.marginBottom = '10px';
 					del.addEventListener('click', fn_deleteList);
+					del.addEventListener('click', function(event) {
+						fn_deleteLocalStorage(key);
+					});
 
 					fn_setLocalStorage(url, JSON.stringify(jsonObject));
 				}
@@ -343,16 +349,19 @@
 			};
 			
 			//-----------------------------------------------------------------------
-			// Description :: 목록 리스트 / 로컬 스토리지 지우기
+			// Description :: 로컬 스토리지 삭제 함수
+			//-----------------------------------------------------------------------
+			function fn_deleteLocalStorage(key) {
+				window.localStorage.removeItem(key);
+				console.log('로컬 스토리지에서 삭제 완료했습니다.');
+			};
+			
+			//-----------------------------------------------------------------------
+			// Description :: 목록 리스트 지우기
 			//-----------------------------------------------------------------------
 			
 			function fn_deleteList(e) {
 				const removeOne = e.target.parentElement;
-				const url = addValue.value;
-				
-				window.localStorage.removeItem(url);
-				console.log('로컬 스토리지에서 삭제 완료했습니다.');
-
 				removeOne.remove();
 			};
 
